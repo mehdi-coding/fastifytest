@@ -1,11 +1,12 @@
 const fastify = require('fastify')({ logger: true });
 const { Pool } = require('pg');
+require('dotenv').config();
 
 const pool = new Pool({
     host: 'localhost',
-    user: 'myuser',
-    password: 'mypassword',
-    database: 'mydb',
+    user: process.env.DB_USER,
+    password: process.env.DB_PASS,
+    database: process.env.DB_NAME,
     port: 5432,
 });
 
@@ -41,7 +42,7 @@ fastify.delete('/items/:id', async (request) => {
 
 const start = async () => {
     await initDB();
-    await fastify.listen({ port: 3001, host: '0.0.0.0' });
+    await fastify.listen({ port: process.env.PORT, host: '0.0.0.0' });
 };
 
 start();
