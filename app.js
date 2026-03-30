@@ -2,6 +2,9 @@ const fastify = require('fastify')({ logger: true });
 const { Pool } = require('pg');
 require('dotenv').config();
 
+// Add CORS plugin
+const fastifyCors = require('@fastify/cors');
+
 const pool = new Pool({
     host: 'localhost',
     user: process.env.DB_USER,
@@ -19,6 +22,19 @@ async function initDB() {
     )
   `);
 }
+
+// Register CORS plugin before your routes
+fastify.register(fastifyCors, {
+    origin: ['https://admin.codingmehdi.com'], // Allow only your frontend domain
+    methods: ['GET', 'POST', 'DELETE', 'OPTIONS'], // Allowed HTTP methods
+    allowedHeaders: ['Content-Type', 'Authorization'], // Allowed headers
+    credentials: true, // If you need to send cookies/auth headers
+});
+
+// Or for development, you can allow all origins (not recommended for production):
+// fastify.register(fastifyCors, {
+//     origin: '*',
+// });
 
 fastify.get('/items', async () => {
     const { rows } = await pool.query('SELECT * FROM items');

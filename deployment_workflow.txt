@@ -1,0 +1,4 @@
+cd /var/www/api
+git pull
+npm install
+sudo systemctl restart api
