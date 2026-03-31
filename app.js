@@ -31,8 +31,8 @@ fastify.register(fastifyCors, {
     origin: (origin, cb) => {
         // Allow your frontend domains
         const allowedOrigins = [
-            'https://admin.mydomain.com',
-            'https://www.admin.mydomain.com',
+            'https://admin.codingmehdi.com',
+            'https://www.admin.codingmehdi.com',
             // Add localhost for development if needed
             'http://localhost:3000',
             'http://localhost:3001',
@@ -65,7 +65,6 @@ fastify.register(fastifyCors, {
 
 // Add a global OPTIONS handler for debugging (optional)
 fastify.options('/*', async (request, reply) => {
-    console.log('OPTIONS request received for:', request.url);
     // The CORS plugin will handle this, we're just logging
     reply.status(204).send();
 });
@@ -132,8 +131,6 @@ const start = async () => {
         
         const port = process.env.PORT || 3000;
         await fastify.listen({ port, host: '0.0.0.0' });
-        console.log(`Server running on port ${port}`);
-        console.log(`CORS enabled for admin.mydomain.com`);
     } catch (error) {
         console.error('Failed to start server:', error);
         process.exit(1);
